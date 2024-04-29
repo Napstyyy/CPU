@@ -1,0 +1,89 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "ru1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ru1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ru1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ru1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ru2[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ru2[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ru2[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ru2[3]",
+					"strict" : false
+				},
+				{
+					"name" : "rs1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "rs1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "rs2[0]",
+					"strict" : false
+				},
+				{
+					"name" : "rs2[1]",
+					"strict" : false
+				},
+				{
+					"name" : "RuWrData[0]",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "rd[1]",
+					"strict" : false
+				},
+				{
+					"name" : "rd[0]",
+					"strict" : false
+				},
+				{
+					"name" : "RuWr",
+					"strict" : false
+				},
+				{
+					"name" : "RuWrData[1]",
+					"strict" : false
+				},
+				{
+					"name" : "RuWrData[2]",
+					"strict" : false
+				},
+				{
+					"name" : "RuWrData[3]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

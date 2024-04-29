@@ -1,0 +1,100 @@
+#! /d/a/fpga-toolchain-build/fpga-toolchain-build/iverilog/_install/bin/vvp
+:ivl_version "11.0 (stable)" "(d3b0992)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\system.vpi";
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\va_math.vpi";
+:vpi_module "C:\PROGRA~3\CHOCOL~1\lib\iverilog\tools\lib\ivl\v2009.vpi";
+S_000002b584c17f10 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_000002b584a5daa0 .scope module, "InstructionMemory_tb" "InstructionMemory_tb" 3 1;
+ .timescale 0 0;
+P_000002b584a57010 .param/l "ADDRESS_WIDTH" 0 3 4, +C4<00000000000000000000000000100000>;
+P_000002b584a57048 .param/l "DATA_WIDTH" 0 3 5, +C4<00000000000000000000000000100000>;
+v000002b584c22db0_0 .var "address", 31 0;
+v000002b584c23210_0 .var "clk", 0 0;
+v000002b584c22a90_0 .net "instruction", 31 0, L_000002b584c23350;  1 drivers
+S_000002b584a5dc30 .scope module, "dut" "InstructionMemory" 3 17, 4 1 0, S_000002b584a5daa0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "address";
+    .port_info 1 /OUTPUT 32 "instruction";
+v000002b584a57170_0 .net *"_ivl_0", 7 0, L_000002b584c22d10;  1 drivers
+L_000002b584c70070 .functor BUFT 1, C4<00000000000000000000000000000010>, C4<0>, C4<0>, C4<0>;
+v000002b584a56e10_0 .net/2u *"_ivl_10", 31 0, L_000002b584c70070;  1 drivers
+v000002b584a5ddc0_0 .net *"_ivl_12", 31 0, L_000002b584c22c70;  1 drivers
+v000002b584a5de60_0 .net *"_ivl_14", 7 0, L_000002b584c22ef0;  1 drivers
+L_000002b584c700b8 .functor BUFT 1, C4<00000000000000000000000000000011>, C4<0>, C4<0>, C4<0>;
+v000002b584c22400_0 .net/2u *"_ivl_16", 31 0, L_000002b584c700b8;  1 drivers
+v000002b584c224a0_0 .net *"_ivl_18", 31 0, L_000002b584c22e50;  1 drivers
+v000002b584c22540_0 .net *"_ivl_2", 7 0, L_000002b584c23170;  1 drivers
+L_000002b584c70028 .functor BUFT 1, C4<00000000000000000000000000000001>, C4<0>, C4<0>, C4<0>;
+v000002b584c22630_0 .net/2u *"_ivl_4", 31 0, L_000002b584c70028;  1 drivers
+v000002b584c232b0_0 .net *"_ivl_6", 31 0, L_000002b584c23490;  1 drivers
+v000002b584c22f90_0 .net *"_ivl_8", 7 0, L_000002b584c23530;  1 drivers
+v000002b584c23030_0 .net "address", 31 0, v000002b584c22db0_0;  1 drivers
+v000002b584c229f0_0 .net "instruction", 31 0, L_000002b584c23350;  alias, 1 drivers
+v000002b584c22950 .array "memory", 256 0, 7 0;
+L_000002b584c22d10 .array/port v000002b584c22950, v000002b584c22db0_0;
+L_000002b584c23170 .array/port v000002b584c22950, L_000002b584c23490;
+L_000002b584c23490 .arith/sum 32, v000002b584c22db0_0, L_000002b584c70028;
+L_000002b584c23530 .array/port v000002b584c22950, L_000002b584c22c70;
+L_000002b584c22c70 .arith/sum 32, v000002b584c22db0_0, L_000002b584c70070;
+L_000002b584c22ef0 .array/port v000002b584c22950, L_000002b584c22e50;
+L_000002b584c22e50 .arith/sum 32, v000002b584c22db0_0, L_000002b584c700b8;
+L_000002b584c23350 .concat [ 8 8 8 8], L_000002b584c22ef0, L_000002b584c23530, L_000002b584c23170, L_000002b584c22d10;
+    .scope S_000002b584a5dc30;
+T_0 ;
+    %vpi_call/w 4 7 "$readmemh", "test.mem", v000002b584c22950 {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_000002b584a5daa0;
+T_1 ;
+    %delay 5, 0;
+    %load/vec4 v000002b584c23210_0;
+    %inv;
+    %store/vec4 v000002b584c23210_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_000002b584a5daa0;
+T_2 ;
+    %vpi_call/w 3 28 "$dumpfile", "InstructionMemory_tb.vcd" {0 0 0};
+    %vpi_call/w 3 29 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002b584a5daa0 {0 0 0};
+    %vpi_call/w 3 32 "$readmemh", "test.mem", v000002b584c22950 {0 0 0};
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002b584c22db0_0, 0, 32;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002b584c22db0_0, 0, 32;
+    %delay 10, 0;
+    %load/vec4 v000002b584c22a90_0;
+    %cmpi/ne 4294967295, 4294967295, 32;
+    %jmp/0xz  T_2.0, 6;
+    %vpi_call/w 3 41 "$display", "Test 1: Failed" {0 0 0};
+    %jmp T_2.1;
+T_2.0 ;
+    %vpi_call/w 3 42 "$display", "Test 1: Passed" {0 0 0};
+T_2.1 ;
+    %pushi/vec4 4, 0, 32;
+    %store/vec4 v000002b584c22db0_0, 0, 32;
+    %delay 10, 0;
+    %load/vec4 v000002b584c22a90_0;
+    %cmpi/ne 4294967295, 4294967295, 32;
+    %jmp/0xz  T_2.2, 6;
+    %vpi_call/w 3 47 "$display", "Test 2: Failed" {0 0 0};
+    %jmp T_2.3;
+T_2.2 ;
+    %vpi_call/w 3 48 "$display", "Test 2: Passed" {0 0 0};
+T_2.3 ;
+    %vpi_call/w 3 53 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "InstructionMemory_tb.sv";
+    "InstructionMemory.sv";

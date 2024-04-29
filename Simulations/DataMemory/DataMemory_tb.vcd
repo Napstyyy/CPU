@@ -1,0 +1,44 @@
+$date
+	Sun Apr 28 09:51:40 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module DataMemory_tb $end
+$var wire 32 ! DataRd [31:0] $end
+$var reg 32 " Address [31:0] $end
+$var reg 3 # DMCtrl [2:0] $end
+$var reg 1 $ DMWr $end
+$var reg 32 % DataWr [31:0] $end
+$scope module dut $end
+$var wire 32 & Address [31:0] $end
+$var wire 3 ' DMCtrl [2:0] $end
+$var wire 1 $ DMWr $end
+$var wire 32 ( DataWr [31:0] $end
+$var reg 32 ) DataRd [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx )
+b1111111111111100 (
+b10 '
+b1100 &
+b1111111111111100 %
+1$
+b10 #
+b1100 "
+bx !
+$end
+#10000
+b1111111111111100 !
+b1111111111111100 )
+0$
+#20000
+b0 %
+b0 (
+#30000
