@@ -1,0 +1,94 @@
+$date
+	Tue May 21 11:08:06 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module ForwardingUnit_tb $end
+$var wire 2 ! FUBSrc [1:0] $end
+$var wire 2 " FUASrc [1:0] $end
+$var reg 1 # RUWr_me $end
+$var reg 1 $ RUWr_wb $end
+$var reg 5 % rd_me [4:0] $end
+$var reg 5 & rd_wb [4:0] $end
+$var reg 5 ' rs1_ex [4:0] $end
+$var reg 5 ( rs2_ex [4:0] $end
+$scope module DUT $end
+$var wire 1 # RUWr_me $end
+$var wire 1 $ RUWr_wb $end
+$var wire 5 ) rd_me [4:0] $end
+$var wire 5 * rd_wb [4:0] $end
+$var wire 5 + rs1_ex [4:0] $end
+$var wire 5 , rs2_ex [4:0] $end
+$var reg 2 - FUASrc [1:0] $end
+$var reg 2 . FUBSrc [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 .
+b10 -
+b1010 ,
+b1000 +
+b0 *
+b1000 )
+b1010 (
+b1000 '
+b0 &
+b1000 %
+1$
+1#
+b10 "
+b0 !
+$end
+#10
+b10 !
+b10 .
+b0 "
+b0 -
+0$
+b1000 (
+b1000 ,
+b10 '
+b10 +
+#20
+b0 !
+b0 .
+b11 "
+b11 -
+b100 &
+b100 *
+1$
+b0 %
+b0 )
+b101 (
+b101 ,
+b100 '
+b100 +
+#30
+b11 !
+b11 .
+b0 "
+b0 -
+b11 &
+b11 *
+0#
+b11 (
+b11 ,
+#40
+b0 !
+b0 .
+b1000 &
+b1000 *
+0$
+b111 %
+b111 )
+b110 (
+b110 ,
+b101 '
+b101 +
+#50

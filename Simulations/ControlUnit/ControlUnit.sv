@@ -10,9 +10,9 @@ module ControlUnit (
     output logic DMWr,
     output logic [2:0] DMCtrl,
     output logic [4:0] BrOp,
-    output logic [1:0] RUDataWrSrc
+    output logic [1:0] RUDataWrSrc,
+    output logic DMRd_ex
 );
-
 always @* begin
     if (opcode == 7'b0110011 || opcode == 7'b0010011 || opcode == 7'b0000011) begin
         RUWr = 1'b1;
@@ -29,6 +29,7 @@ always @* begin
                 end
                     else begin
                         ALUOp = 4'b0000;
+                        DMRd_ex = 1'b1;
                     end
         ImmSrc = 3'b000;
         ALUASrc = 1'b0;

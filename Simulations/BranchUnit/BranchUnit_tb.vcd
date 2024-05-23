@@ -1,0 +1,49 @@
+$date
+	Mon Apr 29 19:11:27 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module BranchUnit_tb $end
+$var wire 1 ! NextPCSrc $end
+$var reg 5 " BrOp [4:0] $end
+$var reg 32 # RURs1 [31:0] $end
+$var reg 32 $ RURs2 [31:0] $end
+$scope module dut $end
+$var wire 5 % BrOp [4:0] $end
+$var wire 32 & RURs1 [31:0] $end
+$var wire 32 ' RURs2 [31:0] $end
+$var reg 1 ! NextPCSrc $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 '
+b0 &
+b0 %
+b0 $
+b0 #
+b0 "
+0!
+$end
+#10
+1!
+b10000 "
+b10000 %
+#20
+0!
+b0 "
+b0 %
+#30
+1!
+b1010 $
+b1010 '
+b1010 #
+b1010 &
+b1000 "
+b1000 %
+#40

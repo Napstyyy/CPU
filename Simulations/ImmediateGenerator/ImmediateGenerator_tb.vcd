@@ -1,0 +1,30 @@
+$date
+	Mon Apr 29 19:44:44 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module ImmediateGenerator_tb $end
+$var wire 32 ! ImmExt [31:0] $end
+$var reg 3 " ImmSrc [2:0] $end
+$var reg 25 # Inst [24:0] $end
+$scope module dut $end
+$var wire 3 $ ImmSrc [2:0] $end
+$var wire 25 % Inst [24:0] $end
+$var reg 32 & ImmExt [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1010 &
+b10100000000001000 %
+b0 $
+b10100000000001000 #
+b0 "
+b1010 !
+$end
+#10

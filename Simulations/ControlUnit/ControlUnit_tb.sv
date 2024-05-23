@@ -56,8 +56,6 @@ module ControlUnit_tb;
         #PERIOD; // Espera un ciclo de reloj
         // Verificar las señales de salida aquí
 
-        // Otros casos de prueba...
-
         // Finalizar simulación
         $finish;
     end
