@@ -7,6 +7,7 @@
 `include "../ImmediateGenerator/ImmediateGenerator.sv"
 `include "../Registers/RegisterUnit.sv"
 `include "../HazardDetectionUnit/HazardDetectionUnit.sv"
+`include "../ForwardingUnit/ForwardingUnit.sv"
 `include "../Registers/littleRegisters/FETCH/PC_fe.sv"
 `include "../Registers/littleRegisters/DECODE/Inst_de.sv"
 `include "../Registers/littleRegisters/DECODE/PC_de.sv"
@@ -50,10 +51,8 @@ module Processor(
     //pc_plus-4
     logic [31:0] pc_out_plus_4;
 
-    /*//Program Counter
-    logic [31:0] pc_out;
+    //Instruction Memory
     logic [31:0] instruction;
-    logic [31:0] pc_input;*/
 
     //Control Unit
     logic [6:0] opcode;
@@ -65,7 +64,7 @@ module Processor(
     logic DMWr;
     logic [2:0] DMCtrl;
     logic [1:0] RUDataWrSrc;
-    logic DMRd_ex;
+    logic DMRd;
 
     //Registers Unit
     logic [4:0] rs1;
@@ -125,18 +124,20 @@ module Processor(
     //WRITEBACK
     logic [1:0] RUDataWrSrc_wb_output;
     logic RUWr_wb_output;
+    logic [31:0] DMDataRd_wb_input;
+    logic [31:0] DMDataRd_wb_output;
     //WRITEBACK ControlUnit
-    logic [31:0] ALURes_me_output;
-    logic [31:0] PCInc_me_output;
-    logic [4:0] rd_me_output;
-    logic [31:0] RUrs2_me_output;
+    logic [31:0] ALURes_wb_output;
+    logic [31:0] PCInc_wb_output;
+    logic [4:0] rd_wb_output;
+    logic [31:0] RUrs2_wb_output;
 
     //Hazard Detection Unit
     logic HDUStall;
 
     //Forwarding Unit
-    logic [1:0] FUBSrc
-    logic [1:0] FUASrc
+    logic [1:0] FUBSrc;
+    logic [1:0] FUASrc;
     
     //Imm Generator
     logic [24:0] Inst;
@@ -190,7 +191,7 @@ module Processor(
         .PC_de_output(PC_de_output)
     );
 
-    Inst_de PC_de(
+    Inst_de Inst_de(
         .enable(HDUStall),
         .clrBU(NextPCSrc),
         .Inst_de_input(instruction),
@@ -216,7 +217,7 @@ module Processor(
         .DMWr(DMWr),
         .DMCtrl(DMCtrl),
         .RUDataWrSrc(RUDataWrSrc),
-        .DMRd_ex(DMRd_ex)
+        .DMRd(DMRd)
         // Pasa otras entradas y salidas según sea necesario
     );
 
@@ -247,7 +248,7 @@ module Processor(
 
     ImmediateGenerator IG(
         .Inst(Inst),
-        .ImmSrc(ImmSrc_de),
+        .ImmSrc(ImmSrc),
         .ImmExt(ImmExt)
     );
 
@@ -270,12 +271,12 @@ module Processor(
         
     );
 
-    ALUOP_ex ALUOP_ex(
+    ALUOp_ex ALUOP_ex(
         .clk(clk),
         .clrHDU(HDUStall),
         .clrBU(NextPCSrc),
-        .ALUOP_ex_input(ALUOp),
-        .ALUOP_ex_output(ALUOP_ex_output)
+        .ALUOp_ex_input(ALUOp),
+        .ALUOp_ex_output(ALUOp_ex_output)
         
     );
 
@@ -336,49 +337,49 @@ module Processor(
     ImmExt_ex ImmExt_ex(
         .clk(clk),
         .ImmExt_ex_input(ImmExt),
-        .ImmExt_ex_output(ImmExt_ex_output),
+        .ImmExt_ex_output(ImmExt_ex_output)
     );
 
     PCInc_ex PCInc_ex(
         .clk(clk),
         .PCInc_ex_input(PCInc_de_output),
-        .PCInc_ex_output(PCInc_ex_output),
+        .PCInc_ex_output(PCInc_ex_output)
     );
 
     PC_ex PC_ex(
         .clk(clk),
         .PC_ex_input(PC_de_output),
-        .PC_ex_output(PC_ex_output),
+        .PC_ex_output(PC_ex_output)
     );
 
     RUrs1_ex RUrs1_ex(
         .clk(clk),
         .RUrs1_ex_input(RURs1),
-        .RUrs1_ex_output(RUrs1_ex_output),
+        .RUrs1_ex_output(RUrs1_ex_output)
     );
 
     RUrs2_ex RUrs2_ex(
         .clk(clk),
         .RUrs2_ex_input(RURs2),
-        .RUrs2_ex_output(RUrs2_ex_output),
+        .RUrs2_ex_output(RUrs2_ex_output)
     );
 
     rd_ex rd_ex(
         .clk(clk),
         .rd_ex_input(rd),
-        .rd_ex_output(rd_ex_output),
+        .rd_ex_output(rd_ex_output)
     );
 
     rs1_ex rs1_ex(
         .clk(clk),
         .rs1_ex_input(rs1),
-        .rs1_ex_output(rs1_ex_output),
+        .rs1_ex_output(rs1_ex_output)
     );
 
     rs2_ex rs2_ex(
         .clk(clk),
         .rs2_ex_input(rs2),
-        .rs2_ex_output(rs2_ex_output),
+        .rs2_ex_output(rs2_ex_output)
     );
     //end Execute Registers
 
