@@ -28,6 +28,7 @@
 `include "../Registers/littleRegisters/WRITEBACK/DMDataRd_wb.sv"
 `include "../Registers/littleRegisters/WRITEBACK/PCInc_wb.sv"
 `include "../Registers/littleRegisters/WRITEBACK/rd_wb.sv"
+`include "../Registers/littleRegisters/ControlSignals/DECODE/ImmSrc_de.sv"
 `include "../Registers/littleRegisters/ControlSignals/EXECUTE/ALUASrc_ex.sv"
 `include "../Registers/littleRegisters/ControlSignals/EXECUTE/ALUBSrc_ex.sv"
 `include "../Registers/littleRegisters/ControlSignals/EXECUTE/ALUOP_ex.sv"
@@ -156,6 +157,10 @@ module Processor(
     //Data Memory
     logic [31:0] Address;
     logic [31:0] DataRd;
+
+    //Mux
+    logic [31:0] FUAMux;
+    logic [31:0] FUBMux;
     
 
     
@@ -178,6 +183,7 @@ module Processor(
     );
 
     PCInc_de PCInc_de(
+        .clk(clk),
         .enable(HDUStall),
         .clrBU(NextPCSrc),
         .PCInc_de_input(pc_out_plus_4),
@@ -185,6 +191,7 @@ module Processor(
     );
 
     PC_de PC_de(
+        .clk(clk),
         .enable(HDUStall),
         .clrBU(NextPCSrc),
         .PC_de_input(pc_out),
@@ -192,6 +199,7 @@ module Processor(
     );
 
     Inst_de Inst_de(
+        .clk(clk),
         .enable(HDUStall),
         .clrBU(NextPCSrc),
         .Inst_de_input(instruction),
@@ -199,15 +207,15 @@ module Processor(
     );
 
     // Extraer los bits 6 al 0 de la instrucción para el OpCode
-    assign opcode = Inst_de_output[6:0];
+    /*assign opcode = Inst_de_output[6:0];
     assign Funct3 = Inst_de_output[14:12];
-    assign Funct7 = Inst_de_output[31:25];
+    assign Funct7 = Inst_de_output[31:25];*/
 
     // Instanciar el módulo ControlUnit
     ControlUnit CO(
-        .opcode(opcode),
-        .Funct3(Funct3),
-        .Funct7(Funct7),
+        .opcode(Inst_de_output[6:0]),
+        .Funct3(Inst_de_output[14:12]),
+        .Funct7(Inst_de_output[31:25]),
         .RUWr(RUWr),
         .ImmSrc(ImmSrc),
         .ALUASrc(ALUASrc),
@@ -244,10 +252,8 @@ module Processor(
         .RURs2(RURs2)
     );
 
-    assign Inst = instruction[31:7];
-
     ImmediateGenerator IG(
-        .Inst(Inst),
+        .Inst(Inst_de_output[31:7]),
         .ImmSrc(ImmSrc),
         .ImmExt(ImmExt)
     );
@@ -384,8 +390,8 @@ module Processor(
     //end Execute Registers
 
     BranchUnit BU(
-        .RURs1(RUrs1_ex_output),
-        .RURs2(RUrs2_ex_output),
+        .RURs1(FUAMux),
+        .RURs2(FUBMux),
         .BrOp(BUOp_ex_output),
         .NextPCSrc(NextPCSrc)
     );
@@ -405,31 +411,31 @@ module Processor(
         pc_out_plus_4 = pc_out + 4;
 
         if (FUASrc == 2'b11) begin
-            RUrs1_ex_output <= DataWr;
+            FUAMux = DataWr;
         end else if (FUASrc == 2'b10) begin
-            RUrs1_ex_output <= ALURes_me_output;
+            FUAMux = ALURes_me_output;
             end else if (FUASrc == 2'b00) begin
-                RUrs1_ex_output <= RUrs1_ex_output;
+                FUAMux = RUrs1_ex_output;
                 end
 
         if (FUBSrc == 2'b11) begin
-            RUrs2_ex_output <= DataWr;
+            FUBMux = DataWr;
         end else if (FUBSrc == 2'b10) begin
-            RUrs2_ex_output <= ALURes_me_output;
+            FUBMux = ALURes_me_output;
             end else if (FUBSrc == 2'b00) begin
-                RUrs2_ex_output <= RUrs2_ex_output;
+                FUBMux = RUrs2_ex_output;
                 end
 
         if (ALUASrc_ex_output) begin
             A <= PC_ex_output;
         end else begin
-            A <= RUrs1_ex_output;
+            A <= FUAMux;
         end
 
         if (ALUBSrc_ex_output) begin
             B <= ImmExt_ex_output;
         end else begin
-            B <= RUrs2_ex_output;
+            B <= FUBMux;
         end
 
         if (NextPCSrc) begin
